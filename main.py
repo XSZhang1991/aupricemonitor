@@ -14,8 +14,10 @@ missing = []
 for pkg in ('streamlit', 'pandas', 'numpy', 'akshare', 'plotly'):
     try:
         __import__(pkg)
+        print(f"✓ {pkg} 已安装")
     except ImportError:
         missing.append(pkg)
+        print(f"✗ {pkg} 缺失")
 
 if missing:
     msg = (
@@ -24,6 +26,8 @@ if missing:
     )
     print(msg)
     sys.exit(1)
+
+print("所有依赖检查通过，开始启动系统...")
 
 from config import LOG_FILE, LOG_LEVEL, FETCH_INTERVAL
 from database import db
