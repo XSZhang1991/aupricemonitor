@@ -5,8 +5,26 @@
 
 import logging
 import time
+import sys
 from threading import Thread
 from datetime import datetime
+
+# 检查关键依赖
+missing = []
+for pkg in ('streamlit', 'pandas', 'numpy', 'akshare', 'plotly'):
+    try:
+        __import__(pkg)
+    except ImportError:
+        missing.append(pkg)
+
+if missing:
+    msg = (
+        '缺少必要的Python库: ' + ", ".join(missing) +
+        "\n请运行 `pip install -r requirements.txt` 安装依赖后重试。"
+    )
+    print(msg)
+    sys.exit(1)
+
 from config import LOG_FILE, LOG_LEVEL, FETCH_INTERVAL
 from database import db
 from data_fetcher import fetcher
