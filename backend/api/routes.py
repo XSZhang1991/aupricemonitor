@@ -197,17 +197,16 @@ def market_indicators(
 
 def _do_fetch_history():
     from backend.db.database import SessionLocal
-    from backend.services.fetcher import fetch_and_save_daily, fetch_and_save_minute
+    from backend.services.fetcher import fetch_and_save_daily, fetch_realtime_tanshu
     from backend.services.calculator import update_indicators
     with SessionLocal() as s:
         n_daily = fetch_and_save_daily(s)
         logger.info("History: %d daily rows saved", n_daily)
         if n_daily > 0:
             update_indicators(s)
+    # Also fetch real-time snapshot so today's data appears immediately
     with SessionLocal() as s:
-        fetch_and_save_minute(s, period="5")
-    with SessionLocal() as s:
-        fetch_and_save_minute(s, period="1")
+        fetch_realtime_tanshu(s)
     logger.info("fetch_history background task complete")
 
 
