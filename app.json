@@ -1,8 +1,0 @@
-{
-  "pages": [
-    "pages/index/index"
-  ],
-  "window": {
-    "navigationBarTitleText": "黄金价格监控"
-  }
-}

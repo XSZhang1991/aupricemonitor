@@ -21,3 +21,6 @@ data/*.csv
 logs/
 黄金价格与波动率监控系统 项目需求文档.docx
 requirements_extracted.txt
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/

@@ -4,11 +4,11 @@
 
 ## 功能特性
 
-- 🔄 自动抓取实时黄金价格数据（使用akshare）
+- 🔄 自动抓取实时黄金价格数据（支持多种API，包含yfinance备选）
 - 📈 计算日波动率、周波动率
 - 💾 本地SQLite数据库存储历史数据
 - 📊 可视化展示价格走势和波动率曲线
-- 💻 简洁易用的Web界面
+- 💻 简洁易用的Web界面（原Streamlit，现推荐Dash）
 - 📤 支持数据刷新、查询、导出
 
 ## 快速开始
@@ -20,13 +20,20 @@
 ### 安装依赖
 ```bash
 pip install -r requirements.txt
+
+# 如果使用Dash前端，还需要安装对应依赖：
+pip install dash dash-bootstrap-components yfinance
 ```
 
 > 注意：requirements.txt 中已包含 akshare 等必需库，确保安装成功以避免部署时出错。
 
 ### 运行程序
 ```bash
+# 运行 Streamlit 界面（保留备份）
 python main.py
+
+# 或者运行 Dash 界面
+python dash_app.py
 ```
 
 程序启动后，在浏览器中打开 `http://localhost:8501` 查看界面。
@@ -67,6 +74,7 @@ gold_monitor/
 
 ### 4. 前端界面
 - 实时显示黄金价格和技术指标
+- 支持Streamlit（旧版）和Dash（推荐）
 - K线图、波动率走势图
 - 历史数据查询和导出
 
@@ -79,7 +87,10 @@ gold_monitor/
 3. 启动Web服务
 
 ### 数据更新
-程序会每5分钟自动更新一次最新数据。手动刷新按钮可立即更新。
+程序会每5分钟自动更新一次最新数据（可配置）。
+手动刷新按钮可立即更新。
+
+> ⚠️ 修复：当无法访问外部API时，系统不再使用错误的500元/克默认值，改为1100元/克并尝试通过yfinance获取当前价格。
 
 ### 数据导出
 在Web界面点击"导出数据"按钮可导出为Excel文件。
@@ -104,6 +115,11 @@ gold_monitor/
 ## 配置说明
 
 编辑 `config.py` 进行相关配置：
+- 数据库路径
+- 日志级别
+- Web服务端口
+- 数据更新频率
+- 当API失效时使用的备用美元/盎司价格（默认为2800）
 - 数据库路径
 - 日志级别
 - Web服务端口
